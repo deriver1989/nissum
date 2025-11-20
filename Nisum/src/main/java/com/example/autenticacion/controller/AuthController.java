@@ -6,6 +6,7 @@ import com.example.autenticacion.response.TokenResponse;
 import com.example.autenticacion.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
         final TokenResponse response = service.register(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)   // 201
+                .body(response);
     }
 
     @PostMapping("/login")

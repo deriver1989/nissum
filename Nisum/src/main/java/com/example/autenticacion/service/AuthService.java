@@ -1,8 +1,10 @@
 package com.example.autenticacion.service;
 
 
+import com.example.autenticacion.entities.Phones;
 import com.example.autenticacion.entities.Token;
 import com.example.autenticacion.entities.User;
+import com.example.autenticacion.reporitories.PhonesRepository;
 import com.example.autenticacion.reporitories.TokenRepository;
 import com.example.autenticacion.reporitories.UserRepository;
 import com.example.autenticacion.request.AuthRequest;
@@ -21,12 +23,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository repository;
+    private final PhonesRepository phonesRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public TokenResponse register(final RegisterRequest request) {
+        List<Phones> phones = request.phones().stream()
+                .map(p -> Phones.builder()
+                        .number(p.number())
+                        .citycode(p.citycode())
+                        .contrycode(p.contrycode())
+                        .build()
+                ).toList();
+
         final User user = User.builder()
                 .name(request.name())
                 .email(request.email())
@@ -34,7 +45,16 @@ public class AuthService {
                 .rol(request.rol())
                 .build();
 
+        phones.forEach(phone -> phone.setUser(user));
+        user.setPhones(phones);
+
+        //Guardar usuario
         final User savedUser = repository.save(user);
+
+        /*
+        //Guardar telefonos
+        final List<Phones> phones = phonesRepository.saveAll(phonesDTO);*/
+
         final String jwtToken = jwtService.generateToken(savedUser);
         final String refreshToken = jwtService.generateRefreshToken(savedUser);
 

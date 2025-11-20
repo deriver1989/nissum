@@ -35,5 +35,7 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Phones> phones;
 
 }
