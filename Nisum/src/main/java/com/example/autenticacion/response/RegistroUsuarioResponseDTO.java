@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegistroResponseDTO {
-    private Boolean status;
-    private String message;
+public class RegistroUsuarioResponseDTO {
+    private UserResponse usuario;
+    private String token;
     private Object archivo;
 
 }

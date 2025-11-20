@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -37,5 +38,17 @@ public class User {
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Phones> phones;
+
+  @Column( name = "created")
+  private LocalDateTime created;
+
+  @Column( name = "modified")
+  private LocalDateTime modified;
+
+  @Column( name = "last_login")
+  private LocalDateTime last_login;
+
+  @Column( name = "isactive")
+  private Boolean isactive;
 
 }
