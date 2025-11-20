@@ -13,5 +13,4 @@ public class RegistroUsuarioResponseDTO {
     private UserResponse usuario;
     private String token;
     private Object archivo;
-
 }
