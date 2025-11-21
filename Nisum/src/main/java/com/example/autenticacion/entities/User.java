@@ -39,7 +39,7 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Phones> phones;
 
-  @Column( name = "created")
+  @Column( name = "created", updatable = false)
   private LocalDateTime created;
 
   @Column( name = "modified")
@@ -50,5 +50,4 @@ public class User {
 
   @Column( name = "isactive")
   private Boolean isactive;
-
 }

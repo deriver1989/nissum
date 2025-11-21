@@ -1,5 +1,0 @@
-create or replace NONEDITIONABLE PACKAGE PKS_COMERCIANTE AS 
-
-    FUNCTION consultar_comerciantes_cursor RETURN SYS_REFCURSOR;
-
-END PKS_COMERCIANTE;

@@ -9,7 +9,10 @@ import com.example.autenticacion.reporitories.TokenRepository;
 import com.example.autenticacion.reporitories.UserRepository;
 import com.example.autenticacion.request.AuthRequest;
 import com.example.autenticacion.request.RegisterRequest;
+import com.example.autenticacion.response.Mensajes;
+import com.example.autenticacion.response.RegistroUsuarioResponseDTO;
 import com.example.autenticacion.response.TokenResponse;
+import com.example.autenticacion.response.UserResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +33,10 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public TokenResponse register(final RegisterRequest request) {
+    public RegistroUsuarioResponseDTO register(final RegisterRequest request) throws Exception {
+        if(repository.findByEmail(request.email()).orElse(null) != null){
+            throw new Exception(Mensajes.CORREO_REGISTRADO);
+        }
         List<Phones> phones = request.phones().stream()
                 .map(p -> Phones.builder()
                         .number(p.number())
@@ -43,6 +50,10 @@ public class AuthService {
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .rol(request.rol())
+                .created(LocalDateTime.now())
+                .modified(LocalDateTime.now())
+                .last_login(LocalDateTime.now())
+                .isactive(Boolean.TRUE)
                 .build();
 
         phones.forEach(phone -> phone.setUser(user));
@@ -51,15 +62,48 @@ public class AuthService {
         //Guardar usuario
         final User savedUser = repository.save(user);
 
-        /*
         //Guardar telefonos
-        final List<Phones> phones = phonesRepository.saveAll(phonesDTO);*/
+        //final List<Phones> phones = phonesRepository.saveAll(phonesDTO);
 
         final String jwtToken = jwtService.generateToken(savedUser);
         final String refreshToken = jwtService.generateRefreshToken(savedUser);
-
         saveUserToken(savedUser, jwtToken);
-        return new TokenResponse(jwtToken, refreshToken);
+
+        RegistroUsuarioResponseDTO respuesta = new RegistroUsuarioResponseDTO();
+        respuesta.setToken(new TokenResponse(jwtToken, refreshToken));
+        respuesta.setUsuario(toResponse(user));
+        respuesta.setMensaje(Mensajes.REGISTRO_OK);
+        return respuesta;
+    }
+
+    private UserResponse toResponse(User user) {
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+        response.setPassword(user.getPassword());
+        response.setRol(user.getRol());
+        response.setCreated(user.getCreated());
+        response.setModified(user.getModified());
+        response.setLast_login(user.getLast_login());
+        response.setIsactive(user.getIsactive());
+
+        // Clona la lista de phones (evita exponer la entidad original)
+        if (user.getPhones() != null) {
+            response.setPhones(
+                    user.getPhones()
+                            .stream()
+                            .map(p -> new Phones(
+                                    p.getId(),
+                                    p.getNumber(),
+                                    p.getCitycode(),
+                                    p.getContrycode()
+                            ))
+                            .toList()
+            );
+        }
+
+        return response;
     }
 
     public TokenResponse authenticate(final AuthRequest request) {

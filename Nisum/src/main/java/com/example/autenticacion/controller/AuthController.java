@@ -2,8 +2,10 @@ package com.example.autenticacion.controller;
 
 import com.example.autenticacion.request.AuthRequest;
 import com.example.autenticacion.request.RegisterRequest;
+import com.example.autenticacion.response.RegistroUsuarioResponseDTO;
 import com.example.autenticacion.response.TokenResponse;
 import com.example.autenticacion.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,19 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
-        final TokenResponse response = service.register(request);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)   // 201
-                .body(response);
+    public ResponseEntity<RegistroUsuarioResponseDTO> register(@Valid @RequestBody RegisterRequest request) {
+        try {
+            final RegistroUsuarioResponseDTO response = service.register(request);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)   // 201
+                    .body(response);
+        }catch (Exception e) {
+            RegistroUsuarioResponseDTO error = new RegistroUsuarioResponseDTO();
+            error.setMensaje(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)   // 201
+                    .body(error);
+        }
     }
 
     @PostMapping("/login")

@@ -37,4 +37,11 @@ public class Phones {
         this.citycode = citycode;
         this.contrycode = contrycode;
     }
+
+    public Phones(Integer id, String number, String citycode, String contrycode) {
+        this.id = id;
+        this.number = number;
+        this.citycode = citycode;
+        this.contrycode = contrycode;
+    }
 }
