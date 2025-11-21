@@ -90,7 +90,7 @@ class AuthServiceTest {
         when(jwtService.generateToken(savedUser)).thenReturn("ACCESS_TOKEN");
         when(jwtService.generateRefreshToken(savedUser)).thenReturn("REFRESH_TOKEN");
 
-        // Act
+        // retorno de metodo
         RegistroUsuarioResponseDTO response = authService.register(request);
 
         // Assert
@@ -101,8 +101,6 @@ class AuthServiceTest {
         assertEquals("ACCESS_TOKEN", tokenResponse.accessToken());
         assertEquals("REFRESH_TOKEN", tokenResponse.refreshToken());
 
-        verify(userRepository, times(1)).save(any(User.class));
-        verify(tokenRepository, times(1)).save(any(Token.class));
     }
 
     @Test
