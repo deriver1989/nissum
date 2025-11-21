@@ -1,6 +1,5 @@
 package com.example.autenticacion.service;
 
-import com.example.autenticacion.entities.Token;
 import com.example.autenticacion.entities.User;
 import com.example.autenticacion.reporitories.PhonesRepository;
 import com.example.autenticacion.reporitories.TokenRepository;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -42,9 +40,6 @@ class AuthServiceTest {
 
     @Mock
     private JwtService jwtService;
-
-    @Mock
-    private AuthenticationManager authenticationManager;
 
     @InjectMocks
     private AuthService authService;

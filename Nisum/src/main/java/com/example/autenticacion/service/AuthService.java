@@ -4,7 +4,6 @@ package com.example.autenticacion.service;
 import com.example.autenticacion.entities.Phones;
 import com.example.autenticacion.entities.Token;
 import com.example.autenticacion.entities.User;
-import com.example.autenticacion.reporitories.PhonesRepository;
 import com.example.autenticacion.reporitories.TokenRepository;
 import com.example.autenticacion.reporitories.UserRepository;
 import com.example.autenticacion.request.AuthRequest;
@@ -27,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository repository;
-    private final PhonesRepository phonesRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
