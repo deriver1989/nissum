@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "30956537-5a6e-4e48-b914-d395b68c986f",
+		"name": "Nisum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6100050",
+		"_collection_link": "https://orange-capsule-856281.postman.co/workspace/OlSoftware~b694504d-0a03-4fc8-9281-ce22c6fc8c95/collection/6100050-30956537-5a6e-4e48-b914-d395b68c986f?action=share&source=collection_link&creator=6100050"
+	},
+	"item": [
+		{
+			"name": "register nuevo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Juan Perez\",\r\n  \"email\": \"juan.perez7777787@example.com\",\r\n  \"password\": \"Enrique1989*\",\r\n  \"rol\": \"ADMIN\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"3214567890\",\r\n      \"citycode\": \"1\",\r\n      \"contrycode\": \"57\"\r\n    },\r\n    {\r\n      \"number\": \"3009876543\",\r\n      \"citycode\": \"2\",\r\n      \"contrycode\": \"57\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "swagger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/swagger-ui/index.html",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"swagger-ui",
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prueba",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJuYW1lIjoiSnVhbiBQZXJleiIsInN1YiI6Imp1YW4ucGVyZXo3Nzc3Nzg3QGV4YW1wbGUuY29tIiwiaWF0IjoxNzYzNzU4MDU0LCJleHAiOjE3NjM3NjE2NTR9.buTu-d5HvSXtY98BIkGBw9r5nyWlSDdcGHvyMJDda8Lk0CH7azCWoUsKVLJzI-fP",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/prueba/hola",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"prueba",
+						"hola"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
